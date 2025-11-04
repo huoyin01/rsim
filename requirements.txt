@@ -1,0 +1,6 @@
+transformers
+datasets
+accelerate
+huggingface_hub
+tqdm
+einops
