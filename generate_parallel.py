@@ -157,10 +157,9 @@ def save_results(filtered_results, output_dir):
 def main():
     args = parser.parse_args()
     tokenizer = riscvTokenizer()
-    model = RsimForCausalLM.from_pretrained(args.model_name_or_path)
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    model = RsimForCausalLM.from_pretrained(args.model_name_or_path, torch_dtype=torch.float16 if device.type == 'cuda' else torch.float32).to(device)
     print(f"Using device: {device}")
-    model.to(device)
 
     input_text = args.input_text or "1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0,10:0,11:0,12:0,13:0,14:0,15:0,16:0,17:0,18:0,19:0,20:0,21:0,22:0"
     cover_inputs = tokenize_input(input_text, args.batch_size, device=device)
